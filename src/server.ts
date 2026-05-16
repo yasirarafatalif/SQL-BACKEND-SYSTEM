@@ -60,7 +60,7 @@ app.get("/api/users", async (req: Request, res: Response) => {
   try {
     const result = await pool.query(`
       SELECT * FROM users`);
-      sendResponse(res, 200, true, "Users fetched successfully", result.rows);
+    sendResponse(res, 200, true, "Users fetched successfully", result.rows);
     // res.status(200).json({
     //   success: true,
     //   message: "Users fetched successfully",
@@ -98,6 +98,30 @@ app.get("/api/users/:id", async (req: Request, res: Response) => {
   }
 });
 
+app.put("/api/users/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { name, password } = req.body;
+  // console.log(req.body);
+  try {
+    const result = await pool.query(
+    'UPDATE users SET name = $1, password = $2 WHERE id = $3 RETURNING *',
+      [name, password, id], 
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+    });
+  } catch (error: any) {
+    console.log(error);
+    sendResponse(res, 500, false, "Error updating user", error);
+  }
+});
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
