@@ -3,16 +3,10 @@ import express, {
   type Request,
   type Response,
 } from "express";
-import { Pool } from "pg";
-import { sendResponse } from "./utility/resposneSender";
-import config from "./config";
-import pool from "./db";
 import { userRoute } from "./modules/users/users.route";
+import { profileRoute } from "./modules/profiles/profiles.routes";
 const app: Application = express();
 app.use(express.json());
-
-
-
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
@@ -20,10 +14,7 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
+app.use("/api/users/profiles", profileRoute);
 app.use("/api/users", userRoute);
-app.use("/api/users", userRoute);
-app.use("/api/users", userRoute);
-app.use("/api/users", userRoute);
-app.use("/api/users",userRoute );
 
 export default app;
