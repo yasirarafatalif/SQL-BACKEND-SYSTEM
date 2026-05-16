@@ -5,12 +5,13 @@ import express, {
 } from "express";
 import { Pool } from "pg";
 import { sendResponse } from "./utility/resposneSender";
+import config from "./config";
 const app: Application = express();
-const port = 3000;
+const port = config.port;
 app.use(express.json());
+
 const pool = new Pool({
-  connectionString:
-    "postgresql://neondb_owner:npg_okhD8s1Kzewg@ep-lively-bonus-ap2g2poz-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+  connectionString: `${config.connection_string}`,
 });
 
 const initDb = async () => {
