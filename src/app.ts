@@ -5,6 +5,7 @@ import express, {
 } from "express";
 import { userRoute } from "./modules/users/users.route";
 import { profileRoute } from "./modules/profiles/profiles.routes";
+import { authRoute } from "./modules/auth/auth.routes";
 const app: Application = express();
 app.use(express.json());
 
@@ -16,5 +17,6 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/users/profiles", profileRoute);
 app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
 
 export default app;

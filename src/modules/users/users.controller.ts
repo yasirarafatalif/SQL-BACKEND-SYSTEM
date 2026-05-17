@@ -3,6 +3,7 @@ import pool from "../../db";
 import { sendResponse } from "../../utility/resposneSender";
 import { userServices } from "./users.services";
 
+
 const getUsers = async (req: Request, res: Response) => {
   try {
     const result = await userServices.getUsers();

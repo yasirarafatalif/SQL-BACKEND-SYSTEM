@@ -25,7 +25,7 @@ const createUser = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Profile Create Successfully ",
-      result,
+      data: result.rows[0],
     });
   } catch (error: any) {
     console.log(error);

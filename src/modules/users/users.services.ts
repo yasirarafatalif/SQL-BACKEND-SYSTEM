@@ -1,18 +1,22 @@
 import pool from "../../db";
 import type { UserFindById, UserRequestBody } from "./users.interface";
+import bcrypt from "bcryptjs";
 
 const getUsers = async () => {
   const result = await pool.query(`
     SELECT * FROM users`);
+  result.rows.forEach((user) => delete user.password);
   return result;
 };
 const creteUsers = async (playload: UserRequestBody) => {
   const { name, email, password } = playload;
+  const hashPassword = bcrypt.hashSync(password, 10);
   const result = await pool.query(
     `INSERT INTO users (name, email,password) VALUES ($1,$2,$3) 
       RETURNING *`,
-    [name, email, password],
+    [name, email, hashPassword],
   );
+  delete result.rows[0].password;
   return result;
 };
 const getUserById = async (id: string) => {
@@ -21,6 +25,7 @@ const getUserById = async (id: string) => {
       SELECT * FROM users WHERE id = $1`,
     [id],
   );
+  delete result.rows[0].password;
   return result;
 };
 const updateUserById = async (playload: UserFindById, id: string) => {
