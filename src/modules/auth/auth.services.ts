@@ -22,6 +22,7 @@ const getLoginIntoDb = async (playload: {
     id: user.id,
     name: user.name,
     email: user.email,
+    role: user.role,
   };
 
   const accessToken = jwt.sign(jwtpayload, config.secret as string, {

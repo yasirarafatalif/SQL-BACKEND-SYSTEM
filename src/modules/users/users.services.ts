@@ -9,12 +9,12 @@ const getUsers = async () => {
   return result;
 };
 const creteUsers = async (playload: UserRequestBody) => {
-  const { name, email, password } = playload;
+  const { name, email, password , role } = playload;
   const hashPassword = bcrypt.hashSync(password, 10);
   const result = await pool.query(
-    `INSERT INTO users (name, email,password) VALUES ($1,$2,$3) 
+    `INSERT INTO users (name, email,password,role) VALUES ($1,$2,$3, COALESCE($4,'user')) 
       RETURNING *`,
-    [name, email, hashPassword],
+    [name, email, hashPassword, role],
   );
   delete result.rows[0].password;
   return result;
