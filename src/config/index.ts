@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import path from "path";
+dotenv.config({quiet:true})
 dotenv.config({
   path: path.join(process.cwd(), ".env"),
 });
@@ -9,6 +10,7 @@ const config = {
   connection_string: process.env.CONNECTIONSTRING  as string,
   port: process.env.PORT ,
   secret: process.env.JWT_SECRET,
+  node_env: process.env.NODE
 };
 
 export default config;
